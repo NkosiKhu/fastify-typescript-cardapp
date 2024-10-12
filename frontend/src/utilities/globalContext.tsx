@@ -8,7 +8,7 @@ export const EntryProvider: React.FC<{children : ReactNode}> = ({children}) => {
     const [entries, setEntries] = useState<Entry[]>([]);
 
     const initState = async () => {
-        const data = await axios.get<Entry[]>('http://localhost:3001/get/')
+        const data = await axios.get<Entry[]>(`${import.meta.env.VITE_API_URL}/get/`)
         const initialStateBody = data.data
         setEntries(initialStateBody)
     }
@@ -18,13 +18,13 @@ export const EntryProvider: React.FC<{children : ReactNode}> = ({children}) => {
       }, []);
 
     const saveEntry = async (entry: Entry) => {
-        const requestData = await axios.post<Entry>('http://localhost:3001/create/', entry)
+        const requestData = await axios.post<Entry>(`${import.meta.env.VITE_API_URL}/create/`, entry)
         const newEntry = requestData.data
         setEntries([...entries, newEntry])
       }
 
     const updateEntry = async (id: string, entry: Entry) => {
-        await axios.put<Entry>(`http://localhost:3001/update/${id}`, entry)
+        await axios.put<Entry>(`${import.meta.env.VITE_API_URL}/update/${id}`, entry)
         setEntries(entries => {
           const entryIndex = entries.findIndex((obj => obj.id == id))
           entries[entryIndex] = entry
@@ -33,7 +33,7 @@ export const EntryProvider: React.FC<{children : ReactNode}> = ({children}) => {
         })
     }
     const deleteEntry = async (id: string) => {
-        await axios.delete<Entry>(`http://localhost:3001/delete/${id}`)
+        await axios.delete<Entry>(`${import.meta.env.VITE_API_URL}/delete/${id}`)
         setEntries(e => e.filter(entry => entry.id != id))
     }
     return (
