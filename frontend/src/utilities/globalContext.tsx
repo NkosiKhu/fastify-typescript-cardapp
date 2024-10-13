@@ -41,9 +41,18 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
 };
 
-const DarkModeContext = createContext<DarkModeContextType | null>(null);
+export const DarkModeContext = createContext<DarkModeContextType | null>(null);
 
 export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
   return <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>{children}</DarkModeContext.Provider>;
 };
