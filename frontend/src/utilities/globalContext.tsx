@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
-import { Entry, EntryContextType, DarkModeContextType } from "../@types/context";
+import { DarkModeContextType, Entry, EntryContextType } from "../@types/context";
 
 export const EntryContext = createContext<EntryContextType | null>(null);
 
@@ -41,15 +41,9 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
 };
 
-
-
 const DarkModeContext = createContext<DarkModeContextType | null>(null);
 
 export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
-  return (
-    <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-      {children}
-    </DarkModeContext.Provider>
-  );
+  return <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>{children}</DarkModeContext.Provider>;
 };
