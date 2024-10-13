@@ -1,7 +1,4 @@
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
-import { DarkModeContextType } from "../@types/context";
-import { DarkModeContext } from "../utilities/globalContext";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,9 +6,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { GearIcon } from "@radix-ui/react-icons"
+} from "@/components/ui/dropdown-menu";
+import { GearIcon } from "@radix-ui/react-icons";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { DarkModeContextType } from "../@types/context";
+import { DarkModeContext } from "../utilities/globalContext";
 
 export default function NavBar() {
   const { darkMode, setDarkMode } = useContext(DarkModeContext) as DarkModeContextType;
@@ -43,8 +43,12 @@ export default function NavBar() {
           <DropdownMenuSeparator />
           <div>
             <Button
-              onClick={() => { setDarkMode(!darkMode) }}
-            >Theme: {darkMode ? "Dark" : "Light"}</Button>
+              onClick={() => {
+                setDarkMode(!darkMode);
+              }}
+            >
+              Theme: {darkMode ? "Dark" : "Light"}
+            </Button>
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
