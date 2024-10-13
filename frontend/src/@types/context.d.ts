@@ -12,6 +12,6 @@ export type EntryContextType = {
 };
 
 export type DarkModeContextType = {
-  darkMode: Boolean;
+  darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
 };
