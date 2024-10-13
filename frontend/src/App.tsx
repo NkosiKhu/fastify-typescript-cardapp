@@ -9,7 +9,6 @@ import { DarkModeProvider, EntryProvider } from "./utilities/globalContext";
 export default function App() {
   return (
     <section className="min-h-screen bg-white dark:bg-gray-900">
-
       <Router>
         <DarkModeProvider>
           <EntryProvider>
