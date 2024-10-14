@@ -8,7 +8,7 @@ dotenv.config({ path: ".env.test" });
 
 // Run migrations to set up the test database schema
 beforeAll(() => {
-  console.log(process.env.DATABASE_URL)
+  console.log(process.env.DATABASE_URL);
   execSync("npx prisma migrate deploy");
 });
 

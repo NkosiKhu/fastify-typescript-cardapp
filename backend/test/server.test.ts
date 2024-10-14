@@ -1,5 +1,5 @@
-import { server } from "../src/server"
 import Prisma from "../src/db";
+import { server } from "../src/server";
 
 describe("server test", () => {
   it("should assert 1 + 1 is 2", () => {
@@ -9,10 +9,9 @@ describe("server test", () => {
 
 describe("Server Routes", () => {
   it("should get all entries", async () => {
-
     // Add an entry to the test database
     await Prisma.entry.create({
-      data: { id: "1", title: "Test Entry", description:"",created_at: new Date(), scheduled_for: null },
+      data: { id: "1", title: "Test Entry", description: "", created_at: new Date(), scheduled_for: null },
     });
 
     const response = await server.inject({
@@ -25,54 +24,59 @@ describe("Server Routes", () => {
   });
 
   it("should create a new entry w/o scheduled date", async () => {
-    const newEntry = { title: "New Entry", description:"new description", created_at: new Date() };
-  
+    const newEntry = { title: "New Entry", description: "new description", created_at: new Date() };
+
     const response = await server.inject({
       method: "POST",
       url: "/create/",
       payload: newEntry,
     });
-  
+
     expect(response.statusCode).toBe(200);
   });
 
   it("should create a new entry with scheduled date", async () => {
-    const newEntry = { title: "New Entry", description:"new description", created_at: new Date(), scheduled_for: new Date() };
-  
+    const newEntry = {
+      title: "New Entry",
+      description: "new description",
+      created_at: new Date(),
+      scheduled_for: new Date(),
+    };
+
     const response = await server.inject({
       method: "POST",
       url: "/create/",
       payload: newEntry,
     });
-  
+
     expect(response.statusCode).toBe(200);
   });
 
   it("should update an entry", async () => {
     await Prisma.entry.create({
-      data: { id: "1", title: "Test Entry", description:"",created_at: new Date(), scheduled_for: null },
+      data: { id: "1", title: "Test Entry", description: "", created_at: new Date(), scheduled_for: null },
     });
-  
+
     const response = await server.inject({
       method: "PUT",
       url: "/update/1",
       payload: { title: "Updated Entry" },
     });
-  
+
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual({ msg: "Updated successfully" });
   });
 
   it("should delete an entry", async () => {
     await Prisma.entry.create({
-      data: { id: "1", title: "Test Entry", description:"",created_at: new Date(), scheduled_for: null },
+      data: { id: "1", title: "Test Entry", description: "", created_at: new Date(), scheduled_for: null },
     });
-  
+
     const response = await server.inject({
       method: "DELETE",
       url: "/delete/1",
     });
-  
+
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual({ msg: "Deleted successfully" });
   });
