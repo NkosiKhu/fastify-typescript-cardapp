@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 
 // Load environment variables from .env file
+delete process.env.DATABASE_URL;
 dotenv.config();
 
 import { server } from "./server";

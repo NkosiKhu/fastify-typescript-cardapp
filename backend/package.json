@@ -28,9 +28,5 @@
     "nodemon": "^2.0.22",
     "ts-jest": "^29.1.0",
     "ts-node-dev": "^1.1.8"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node"
   }
 }
