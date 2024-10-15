@@ -20,41 +20,50 @@ export default function AllEntries() {
     );
   }
   return (
-    <section className="grid grid-cols-2 md:grid-cols-4">
+    <section className="flex flex-col items-center">
       {entries.map((entry: Entry, index: number) => {
         return (
           <div
             id={entry.id}
             key={index}
-            className="bg-gray-300 dark:bg-gray-700 shadow-md shadow-gray-500 dark:shadow-gray-900 m-3 p-4 rounded flex flex-col justify-between"
+            className="bg-card w-3/5 dark:bg-card shadow-md shadow-gray-500 dark:shadow-gray-900 m-3 p-4 rounded flex flex-col justify-between"
           >
-            <h1 className="font-bold text-sm md:text-lg text-black dark:text-white">{entry.title}</h1>
-            <p className="text-center text-lg font-light md:mt-2 md:mb-4 mt-1 mb-3 text-black dark:text-gray-300">
-              {entry.description}
-            </p>
-            <section className="flex items-center justify-between flex-col md:flex-row pt-2 md:pt-0">
-              <div className="flex justify-center">
-                <button
-                  onClick={() => {
-                    deleteEntry(entry.id as string);
-                  }}
-                  className="m-1 md:m-2 p-1 font-semibold rounded-md bg-red-500 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-900"
-                >
-                  ✖
-                </button>
-                <button
-                  onClick={() => {
-                    navigate(`/edit/${entry.id}`, { replace: true });
-                  }}
-                  className="m-1 md:m-2 p-1 font-semibold rounded-md bg-blue-500 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-900"
-                >
-                  🖊
-                </button>
+            <h1 className="font-bold text-sm md:text-lg text-foreground dark:text-foreground">{entry.title}</h1>
+            <div className="flex flex-row justify-between md:mt-2 md:mb-4 mt-1 mb-3 items-center">
+              <div>
+                <p className="text-lg font-light text-foreground dark:text-foreground">
+                  {entry.description}
+                </p>
               </div>
-              <time className="text-right text-sm md:text-lg text-black dark:text-gray-300">
-                {new Date(entry.created_at.toString()).toLocaleDateString()}
-              </time>
-            </section>
+              <section className="flex items-center justify-between flex-col md:flex-row pt-2 md:pt-0">
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => {
+                      navigate(`/edit/${entry.id}`, { replace: true });
+                    }}
+                    className="m-1 md:m-2 p-1 font-semibold rounded-md bg-primary hover:bg-primary dark:bg-primary dark:hover:bg-primary"
+                  >
+                    🖊
+                  </button>
+                  <button
+                    onClick={() => {
+                      deleteEntry(entry.id as string);
+                    }}
+                    className="m-1 md:m-2 p-1 font-semibold rounded-md bg-destructive hover:bg-destructive dark:bg-destructive dark:hover:bg-destructive"
+                  >
+                    ✖
+                  </button>
+                </div>
+              </section>
+            </div>
+            {entry.scheduled_for ? (
+              <p className="mb-3">Due on {new Date(entry.scheduled_for.toString()).toLocaleDateString()}</p>
+            ) : (
+              <></>
+            )}
+            <p className="text-gray-500 text-xs dark:text-gray-400">
+              Created at {new Date(entry.created_at.toString()).toLocaleDateString()}
+            </p>
           </div>
         );
       })}
