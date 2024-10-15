@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DarkModeContextType, Entry, EntryContextType } from "../@types/context";
-import { useNavigate } from 'react-router-dom';
 
 export const EntryContext = createContext<EntryContextType | null>(null);
 
@@ -26,9 +26,9 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       setEntries([...entries, newEntry]);
 
       // Redirect to the home page after successful creation
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Error creating entry:', error);
+      console.error("Error creating entry:", error);
     }
   };
 
@@ -54,7 +54,7 @@ export const DarkModeContext = createContext<DarkModeContextType | null>(null);
 
 export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(() => {
-    const storedTheme = localStorage.getItem('darkMode');
+    const storedTheme = localStorage.getItem("darkMode");
     return storedTheme ? JSON.parse(storedTheme) : false;
   });
 
@@ -64,7 +64,7 @@ export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }
     } else {
       document.documentElement.classList.remove("dark");
     }
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
   return <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>{children}</DarkModeContext.Provider>;
