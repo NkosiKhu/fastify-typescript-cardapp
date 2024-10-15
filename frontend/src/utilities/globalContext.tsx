@@ -1,11 +1,13 @@
 import axios from "axios";
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import { DarkModeContextType, Entry, EntryContextType } from "../@types/context";
+import { useNavigate } from 'react-router-dom';
 
 export const EntryContext = createContext<EntryContextType | null>(null);
 
 export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const navigate = useNavigate();
 
   const initState = async () => {
     const data = await axios.get<Entry[]>(`${import.meta.env.VITE_API_URL}/get/`);
@@ -18,9 +20,16 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, []);
 
   const saveEntry = async (entry: Entry) => {
-    const requestData = await axios.post<Entry>(`${import.meta.env.VITE_API_URL}/create/`, entry);
-    const newEntry = requestData.data;
-    setEntries([...entries, newEntry]);
+    try {
+      const requestData = await axios.post<Entry>(`${import.meta.env.VITE_API_URL}/create/`, entry);
+      const newEntry = requestData.data;
+      setEntries([...entries, newEntry]);
+
+      // Redirect to the home page after successful creation
+      navigate('/');
+    } catch (error) {
+      console.error('Error creating entry:', error);
+    }
   };
 
   const updateEntry = async (id: string, entry: Entry) => {
