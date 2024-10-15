@@ -1,0 +1,46 @@
+services:
+  front:
+    image: nkosikhu/cardapp-front:latest
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: https://teaching-pug-honestly.ngrok-free.app/api
+    restart: always
+
+  back:
+    image: nkosikhu/cardapp-back:latest
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      DATABASE_URL: "file:./prod.db" 
+    restart: always
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    command:
+      - "http"
+      - "--domain=teaching-pug-honestly.ngrok-free.app"
+      - "caddy:80"  # Point ngrok to Caddy
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    ports:
+      - 4040:4040
+    depends_on:
+      - caddy
+
+  caddy:
+    image: caddy/caddy:2.8.4-alpine
+    ports:
+      - "80:80"  # Caddy listens on port 80
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - front
+      - back
+
+volumes:
+  caddy_data:
+  caddy_config:
