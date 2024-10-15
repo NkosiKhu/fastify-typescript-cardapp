@@ -8,8 +8,13 @@ export const server = fastify();
 server.register(cors, {});
 
 server.get<{ Reply: Entry[] }>("/get/", async (req, reply) => {
-  const dbAllEntries = await Prisma.entry.findMany({});
-  reply.send(dbAllEntries);
+  try{
+    const dbAllEntries = await Prisma.entry.findMany({});
+
+    reply.send(dbAllEntries);
+  }catch(error){
+    console.log(error)
+  }
 });
 
 server.get<{ Body: Entry; Params: { id: string } }>(
@@ -26,14 +31,18 @@ server.get<{ Body: Entry; Params: { id: string } }>(
 );
 
 server.post<{ Body: Entry }>("/create/", async (req, reply) => {
-  let newEntryBody = req.body;
-  newEntryBody.created_at
-    ? (newEntryBody.created_at = new Date(req.body.created_at))
-    : (newEntryBody.created_at = new Date());
+    const newEntryBody: Entry = {
+    ...req.body,
+    created_at: req.body.created_at ? new Date(req.body.created_at) : new Date(),
+    scheduled_for: req.body.scheduled_for ? new Date(req.body.scheduled_for) : null,
+  };
+
   try {
-    const createdEntryData = await Prisma.entry.create({ data: req.body });
+    const createdEntryData = await Prisma.entry.create({ data: newEntryBody });
+
     reply.send(createdEntryData);
-  } catch {
+  } catch (error) {
+    console.error("Error creating entry:", error);
     reply.status(500).send({ msg: "Error creating entry" });
   }
 });
@@ -50,17 +59,20 @@ server.delete<{ Params: { id: string } }>("/delete/:id", async (req, reply) => {
 server.put<{ Params: { id: string }; Body: Entry }>(
   "/update/:id",
   async (req, reply) => {
-    let updatedEntryBody = req.body;
-    updatedEntryBody.created_at
-      ? (updatedEntryBody.created_at = new Date(req.body.created_at))
-      : (updatedEntryBody.created_at = new Date());
+
+    let updatedEntryBody: Entry = {
+      ...req.body,
+      created_at: req.body.created_at ? new Date(req.body.created_at) : new Date(),
+      scheduled_for: req.body.scheduled_for ? new Date(req.body.scheduled_for) : null,
+    };
     try {
       await Prisma.entry.update({
-        data: req.body,
+        data: updatedEntryBody,
         where: { id: req.params.id },
       });
       reply.send({ msg: "Updated successfully" });
-    } catch {
+    } catch(error) {
+      console.log(error)
       reply.status(500).send({ msg: "Error updating" });
     }
   }
