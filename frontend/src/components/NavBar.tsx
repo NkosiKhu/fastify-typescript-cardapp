@@ -34,9 +34,7 @@ export default function NavBar() {
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Button variant="outline" size="icon">
             <GearIcon className="h-4 w-4" />
-          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Settings</DropdownMenuLabel>
