@@ -44,7 +44,10 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 export const DarkModeContext = createContext<DarkModeContextType | null>(null);
 
 export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const storedTheme = localStorage.getItem('darkMode');
+    return storedTheme ? JSON.parse(storedTheme) : false;
+  });
 
   useEffect(() => {
     if (darkMode) {
@@ -52,6 +55,7 @@ export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }
     } else {
       document.documentElement.classList.remove("dark");
     }
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
   return <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>{children}</DarkModeContext.Provider>;
