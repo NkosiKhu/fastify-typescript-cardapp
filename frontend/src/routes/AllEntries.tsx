@@ -31,9 +31,7 @@ export default function AllEntries() {
             <h1 className="font-bold text-sm md:text-lg text-foreground dark:text-foreground">{entry.title}</h1>
             <div className="flex flex-row justify-between md:mt-2 md:mb-4 mt-1 mb-3 items-center">
               <div>
-                <p className="text-lg font-light text-foreground dark:text-foreground">
-                  {entry.description}
-                </p>
+                <p className="text-lg font-light text-foreground dark:text-foreground">{entry.description}</p>
               </div>
               <section className="flex items-center justify-between flex-col md:flex-row pt-2 md:pt-0">
                 <div className="flex justify-center">

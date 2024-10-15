@@ -5,7 +5,7 @@ import { EntryContext } from "../utilities/globalContext";
 
 export default function EditEntry() {
   const { id } = useParams();
-  const emptyEntry: Entry = { title: "", description: "", created_at: new Date(), scheduled_for:null };
+  const emptyEntry: Entry = { title: "", description: "", created_at: new Date(), scheduled_for: null };
 
   const { updateEntry, entries } = useContext(EntryContext) as EntryContextType;
   const [newEntry, setNewEntry] = useState<Entry>(emptyEntry);
@@ -13,15 +13,15 @@ export default function EditEntry() {
 
   useEffect(() => {
     const entry = entries.filter((entry) => entry.id == id)[0];
-    if(entry){
+    if (entry) {
       setNewEntry(entry);
-      setIsScheduled(!!entry.scheduled_for)
+      setIsScheduled(!!entry.scheduled_for);
     }
   }, []);
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = event.target;
     if (type === "checkbox") {
-      const checked = (event.target as HTMLInputElement).checked; 
+      const checked = (event.target as HTMLInputElement).checked;
 
       setIsScheduled(checked);
       setNewEntry({
@@ -56,11 +56,7 @@ export default function EditEntry() {
         onChange={handleInputChange}
       />
       <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={isScheduled}
-          onChange={handleInputChange}
-        />
+        <input type="checkbox" checked={isScheduled} onChange={handleInputChange} />
         <label className="text-black dark:text-white">Schedule</label>
       </div>
       {isScheduled && (
@@ -68,7 +64,7 @@ export default function EditEntry() {
           className="p-3 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white"
           type="date"
           name="scheduled_for"
-          value={newEntry.scheduled_for ? new Date(newEntry.scheduled_for).toISOString().split('T')[0] : ""}
+          value={newEntry.scheduled_for ? new Date(newEntry.scheduled_for).toISOString().split("T")[0] : ""}
           onChange={handleInputChange}
         />
       )}

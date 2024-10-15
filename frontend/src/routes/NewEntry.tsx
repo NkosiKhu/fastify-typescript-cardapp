@@ -11,7 +11,7 @@ export default function NewEntry() {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = event.target;
     if (type === "checkbox") {
-      const checked = (event.target as HTMLInputElement).checked; 
+      const checked = (event.target as HTMLInputElement).checked;
 
       setIsScheduled(checked);
       setNewEntry({
@@ -25,7 +25,6 @@ export default function NewEntry() {
       });
     }
   };
-
 
   const handleSend = (e: MouseEvent<HTMLButtonElement>) => {
     saveEntry(newEntry);
@@ -51,11 +50,7 @@ export default function NewEntry() {
         onChange={handleInputChange}
       />
       <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={isScheduled}
-          onChange={handleInputChange}
-        />
+        <input type="checkbox" checked={isScheduled} onChange={handleInputChange} />
         <label className="text-black dark:text-white">Schedule</label>
       </div>
       {isScheduled && (
@@ -63,7 +58,7 @@ export default function NewEntry() {
           className="p-3 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white"
           type="date"
           name="scheduled_for"
-          value={newEntry.scheduled_for ? new Date(newEntry.scheduled_for).toISOString().split('T')[0] : ""}
+          value={newEntry.scheduled_for ? new Date(newEntry.scheduled_for).toISOString().split("T")[0] : ""}
           onChange={handleInputChange}
         />
       )}
