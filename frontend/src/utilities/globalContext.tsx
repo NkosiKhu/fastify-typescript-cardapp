@@ -33,13 +33,20 @@ export const EntryProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   };
 
   const updateEntry = async (id: string, entry: Entry) => {
-    await axios.put<Entry>(`${import.meta.env.VITE_API_URL}/update/${id}`, entry);
-    setEntries((entries) => {
-      const entryIndex = entries.findIndex((obj) => obj.id == id);
-      entries[entryIndex] = entry;
-      console.log(entries);
-      return entries;
-    });
+    try{
+
+      await axios.put<Entry>(`${import.meta.env.VITE_API_URL}/update/${id}`, entry);
+      setEntries((entries) => {
+        const entryIndex = entries.findIndex((obj) => obj.id == id);
+        entries[entryIndex] = entry;
+        return entries;
+      });
+      navigate("/");
+
+    } catch (error) {
+      console.error("Error creating entry:", error);
+
+    }
   };
   const deleteEntry = async (id: string) => {
     await axios.delete<Entry>(`${import.meta.env.VITE_API_URL}/delete/${id}`);
